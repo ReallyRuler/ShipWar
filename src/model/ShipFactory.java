@@ -1,6 +1,6 @@
-package view;
+package model;
 
-import Constant.SHIPTYPE;
+import constant.SHIPTYPE;
 
 public class ShipFactory {
 	public static AbstractShip createShip(int shipType){

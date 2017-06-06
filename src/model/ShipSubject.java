@@ -1,4 +1,4 @@
-package view;
+package model;
 
 public interface ShipSubject {
 	public void registerObserver(ShipObserver oberver);

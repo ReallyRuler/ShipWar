@@ -1,4 +1,4 @@
-package view;
+package model;
 
 public interface ShipObserver {
 	public void update(AbstractShip ship);

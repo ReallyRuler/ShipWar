@@ -1,8 +1,9 @@
 package test;
 
-import Constant.SHIPTYPE;
-import view.MapModel;
-import view.ShipModel;
+import constant.SHIPTYPE;
+import model.MapModel;
+import model.ShipModel;
+import util.Location;
 
 public class MainTest {
 
@@ -11,12 +12,25 @@ public class MainTest {
 		ShipModel shipModel=new ShipModel();
 		
 		MapModel mapModel=new MapModel();
+		mapModel.initMapGrid(100, 100);
 		
 		shipModel.registerObserver(mapModel);
 		
-		shipModel.initShip(SHIPTYPE.TINY_SHIP);
+		Location []locs=new Location[1];
+		locs[0]=new Location(1,1);
 		
-		shipModel.hurtShip();
+		shipModel.initShip(SHIPTYPE.TINY_SHIP,locs);
+		
+		ShipModel shipModel2=new ShipModel();
+		shipModel2.registerObserver(mapModel);
+		
+		Location []locs2=new Location[2];
+		locs2[0]=new Location(0,1);
+		locs2[1]=new Location(1,1);
+		shipModel2.initShip(SHIPTYPE.SMALL_SHIP, locs2);
+		
+		
+		//shipModel.hurtShip();
 	}
 
 }

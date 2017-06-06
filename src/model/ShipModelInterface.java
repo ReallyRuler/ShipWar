@@ -1,7 +1,9 @@
-package view;
+package model;
+
+import util.Location;
 
 public interface ShipModelInterface {
-	public void initShip(int shipType);
+	public boolean initShip(int shipType,Location[] locs);
 	public void hurtShip();
 	public boolean ifDestroy();
 }

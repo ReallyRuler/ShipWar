@@ -1,4 +1,4 @@
-package Constant;
+package constant;
 
 public class SHIPTYPE {
 	public static final int TINY_SHIP=1;

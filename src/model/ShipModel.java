@@ -1,6 +1,8 @@
-package view;
+package model;
 
 import java.util.ArrayList;
+
+import util.Location;
 
 public class ShipModel implements ShipSubject,ShipModelInterface{
 	
@@ -9,13 +11,21 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 	private AbstractShip ship;
 	
 	@Override
-	public void initShip(int shipType) {
+	public boolean initShip(int shipType,Location[] locs) {
 		// TODO Auto-generated method stub
 		ship=ShipFactory.createShip(shipType);
 		
-		System.out.println("ShipModel.initShip()");
+		ship.loc=locs;
 		
-		notifyObervers();
+		
+		try {
+			notifyObervers();
+			return true;
+		} catch (ShipLocationException e) {
+			e.printStackTrace();
+			ship=null;
+			return false;
+		}
 	}
 	
 	@Override
