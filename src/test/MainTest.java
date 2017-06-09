@@ -9,6 +9,8 @@ public class MainTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		/*这是测试创建船只的部分
 		ShipModel shipModel=new ShipModel();
 		
 		MapModel mapModel=new MapModel();
@@ -31,6 +33,24 @@ public class MainTest {
 		
 		
 		//shipModel.hurtShip();
+		 * 
+		 */
+		
+		ShipModel shipModel=new ShipModel();
+		Location []locs=new Location[2];
+		locs[0]=new Location(2, 2);
+		locs[1]=new Location(2, 3);
+		//shipModel.initShip(SHIPTYPE.SMALL_SHIP, locs);
+		
+		MapModel mapModel=new MapModel();
+		mapModel.initMapGrid(100, 100);
+		
+		shipModel.registerObserver(mapModel);
+		
+		shipModel.initShip(SHIPTYPE.SMALL_SHIP, locs);
+		
+		shipModel.hurtShip(new Location(2,2));
+		shipModel.hurtShip(new Location(2,2));
 	}
 
 }

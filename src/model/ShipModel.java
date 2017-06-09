@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import constant.UPDATATYPE;
 import util.Location;
 
 public class ShipModel implements ShipSubject,ShipModelInterface{
@@ -15,11 +16,11 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 		// TODO Auto-generated method stub
 		ship=ShipFactory.createShip(shipType);
 		
-		ship.loc=locs;
+		ship.locs=locs;
 		
 		
 		try {
-			notifyObervers();
+			initNotifyObervers();
 			return true;
 		} catch (ShipLocationException e) {
 			e.printStackTrace();
@@ -29,11 +30,28 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 	}
 	
 	@Override
-	public void hurtShip() {
+	public boolean hurtShip(Location loc) {
 		// TODO Auto-generated method stub
-		ship.nhealth=ship.nhealth-1;
+		boolean ifHurt=false;
+		ship.hurtLoc=loc;
 		
-		notifyObervers();
+		for(int i=0;i<ship.locs.length;i++){
+			
+			if(loc.locaX==ship.locs[i].locaX&&loc.locaY==ship.locs[i].locaY){
+				ship.nhealth=ship.nhealth-1;
+				ship.locs[i].locaX=-1;
+				ship.locs[i].locaY=-1;
+				ifHurt=true;
+				break;
+			}
+		}
+		try {
+			hurtNotifyObervers();
+			return true;
+		} catch (ShipLocationException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	@Override
@@ -62,11 +80,25 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 	}
 	
 	@Override
-	public void notifyObervers() {
+	public void initNotifyObervers() {
 		// TODO Auto-generated method stub
+		if(observers==null)
+			return;
+		
 		for(int i=0;i<observers.size();i++){
 			ShipObserver observer = (ShipObserver) observers.get(i);
-			observer.update(ship);
+			observer.update(ship,UPDATATYPE.INIT_UPDATA);
+		}
+	}
+	
+	public void hurtNotifyObervers() {
+		// TODO Auto-generated method stub
+		if(observers==null)
+			return;
+		
+		for(int i=0;i<observers.size();i++){
+			ShipObserver observer = (ShipObserver) observers.get(i);
+			observer.update(ship,UPDATATYPE.HURT_UPDATA);
 		}
 	}
 		

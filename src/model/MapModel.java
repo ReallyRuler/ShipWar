@@ -1,6 +1,7 @@
 package model;
 
 import constant.GRIDTYPE;
+import constant.UPDATATYPE;
 
 public class MapModel implements ShipObserver,MapModelInterfate {
 
@@ -26,23 +27,39 @@ public class MapModel implements ShipObserver,MapModelInterfate {
 		mapCheck=new MapCheck(maxX, maxY, mapGrid);
 	}
 	
-	public void updataMapGrid(){
-		for(int i=0;i<ship.length;i++){
-			mapGrid[ship.loc[i].locaX][ship.loc[i].locaY]=GRIDTYPE.LIVE_SHIP;
-		}
-	}
 	
 	@Override
-	public void update(AbstractShip ship) {
+	public void update(AbstractShip ship,int updataType) {
 		// TODO Auto-generated method stub
-		if(mapCheck.check(ship.loc)==false){
-			throw new ShipLocationException("Location error");
+		
+		if(updataType==UPDATATYPE.INIT_UPDATA){
+			if(mapCheck.initCheck(ship.locs)==false){
+				throw new ShipLocationException("Init location error");
+			}
+
+			this.ship=ship;		
+			for(int i=0;i<ship.length;i++){
+				mapGrid[ship.locs[i].locaX][ship.locs[i].locaY]=GRIDTYPE.LIVE_SHIP;
+			}
 		}
-		this.ship=ship;
 		
-		updataMapGrid();
-		
-		System.out.println("MapModel.update()");
+		else if(updataType==UPDATATYPE.HURT_UPDATA){
+			if(mapCheck.hurtCheck(ship.hurtLoc)==false){
+				throw new ShipLocationException("Hurt location error");
+			}
+			this.ship=ship;
+			
+			if(mapGrid[ship.hurtLoc.locaX][ship.hurtLoc.locaY]==GRIDTYPE.NO_SHIP){
+				mapGrid[ship.hurtLoc.locaX][ship.hurtLoc.locaY]=GRIDTYPE.HURT_GRID;
+				System.out.println("no ship hurt");
+			}
+			
+			else if(mapGrid[ship.hurtLoc.locaX][ship.hurtLoc.locaY]==GRIDTYPE.LIVE_SHIP){
+				mapGrid[ship.hurtLoc.locaX][ship.hurtLoc.locaY]=GRIDTYPE.DEAD_SHIP;
+				System.out.println("ship hurt");
+			}
+		}
+		System.out.println("something in mapmodel change");
 	}
 
 }

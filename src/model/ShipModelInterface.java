@@ -4,6 +4,6 @@ import util.Location;
 
 public interface ShipModelInterface {
 	public boolean initShip(int shipType,Location[] locs);
-	public void hurtShip();
+	public boolean hurtShip(Location loc);
 	public boolean ifDestroy();
 }
