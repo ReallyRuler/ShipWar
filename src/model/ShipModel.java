@@ -12,13 +12,16 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 	private AbstractShip ship;
 	
 	@Override
-	public boolean initShip(int shipType,Location[] locs) {
+	public void initShip(int shipType,Location[] locs) {
 		// TODO Auto-generated method stub
 		ship=ShipFactory.createShip(shipType);
 		
-		ship.locs=locs;
-		
-		
+		ship.locs=locs;	
+	}
+	
+	@Override
+	public boolean setShip() {
+		// TODO Auto-generated method stub
 		try {
 			initNotifyObervers();
 			return true;
@@ -28,6 +31,7 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 			return false;
 		}
 	}
+	
 	
 	@Override
 	public boolean hurtShip(Location loc) {
@@ -39,12 +43,13 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 			
 			if(loc.locaX==ship.locs[i].locaX&&loc.locaY==ship.locs[i].locaY){
 				ship.nhealth=ship.nhealth-1;
-				ship.locs[i].locaX=-1;
-				ship.locs[i].locaY=-1;
+				ship.locs[i]=Location.nullLoc;
 				ifHurt=true;
 				break;
 			}
 		}
+		return ifHurt;
+		/*
 		try {
 			hurtNotifyObervers();
 			return true;
@@ -52,6 +57,7 @@ public class ShipModel implements ShipSubject,ShipModelInterface{
 			e.printStackTrace();
 			return false;
 		}
+		*/
 	}
 	
 	@Override

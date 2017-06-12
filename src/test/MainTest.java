@@ -1,6 +1,10 @@
 package test;
 
+import java.util.Scanner;
+
+import constant.ATTACTORDER;
 import constant.SHIPTYPE;
+import model.GameProcess;
 import model.MapModel;
 import model.ShipModel;
 import util.Location;
@@ -35,7 +39,7 @@ public class MainTest {
 		//shipModel.hurtShip();
 		 * 
 		 */
-		
+		/*
 		ShipModel shipModel=new ShipModel();
 		Location []locs=new Location[2];
 		locs[0]=new Location(2, 2);
@@ -51,6 +55,44 @@ public class MainTest {
 		
 		shipModel.hurtShip(new Location(2,2));
 		shipModel.hurtShip(new Location(2,2));
+		*/
+		
+		GameProcess gameProcess=GameProcess.getGameProcess();
+		gameProcess.gameStart();
+		
+		ShipModel[] firstShips=new ShipModel[1];
+		firstShips[0]=new ShipModel();
+		Location []locs=new Location[2];
+		locs[0]=new Location(2, 2);
+		locs[1]=new Location(2, 3);
+		firstShips[0].initShip(SHIPTYPE.SMALL_SHIP, locs);
+		
+		MapModel firstMap=new MapModel();
+		firstMap.initMapGrid(100, 100);
+		
+		
+		
+		ShipModel[] secondShips=new ShipModel[1];
+		secondShips[0]=new ShipModel();
+		locs=new Location[2];
+		locs[0]=new Location(3, 3);
+		locs[1]=new Location(3, 4);
+		secondShips[0].initShip(SHIPTYPE.SMALL_SHIP, locs);
+		
+		MapModel secondMap=new MapModel();
+		secondMap.initMapGrid(100, 100);
+		
+		gameProcess.gameReady(firstShips, secondShips, firstMap, secondMap);
+		
+		gameProcess.chooseAttactOrder(ATTACTORDER.FIRST_ATTACT);
+		
+		int x,y;
+		do{
+			System.out.println("Input the location:");
+			Scanner scanner=new Scanner(System.in);
+			x=scanner.nextInt();
+			y=scanner.nextInt();
+		}while(gameProcess.nextAttact(new Location(x,y))!=0);
 	}
 
 }
